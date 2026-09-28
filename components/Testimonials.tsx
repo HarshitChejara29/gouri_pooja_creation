@@ -92,8 +92,7 @@ export default function Testimonials() {
               </h2>
 
               <p className="mt-6 max-w-[280px] text-[13px] leading-6 text-[#77716a] md:text-[14px] md:leading-7">
-                Real experiences from women who chose Gouri Pooja Creations
-                for their special moments.
+                Hear from customers who have experienced Gouri Pooja Creations for their special moments.
               </p>
             </div>
 

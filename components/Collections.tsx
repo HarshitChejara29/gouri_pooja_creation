@@ -77,6 +77,10 @@ export default function Collections() {
             <h2 className="font-serif text-[38px] font-normal leading-[1.05] tracking-[-0.8px] md:text-[46px] lg:text-[52px]">
               Our Latest Collection
             </h2>
+
+            <p className="mt-4 max-w-[470px] text-[13px] leading-6 text-[#858078] md:text-[14px] md:leading-7">
+              Explore our collection of sarees, ready-made garments and ethnic wear.
+            </p>
           </div>
 
           {/* CAROUSEL CONTROLS */}

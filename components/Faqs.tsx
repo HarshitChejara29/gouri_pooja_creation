@@ -6,7 +6,7 @@ const faqs = [
   {
     question: "What types of sarees do you offer?",
     answer:
-      "We offer a curated range of sarees including Banarasi, silk, organza, zari and other traditional and contemporary styles. Our collections are selected for different occasions, from festive celebrations to weddings and everyday elegance.",
+      "We offer a curated range of sarees including Banarasi, silk, organza, zari, Net, Cotton and other traditional and contemporary styles. Our collections are selected for different occasions, from festive celebrations to weddings and everyday elegance.",
   },
   {
     question: "How can I choose the right saree for my occasion?",
@@ -24,11 +24,6 @@ const faqs = [
       "Yes, we offer delivery across India. Delivery timelines can vary depending on the destination and availability of the selected product.",
   },
   {
-    question: "Can I get help with sizing or styling?",
-    answer:
-      "Yes. Our customer care team can help you with sizing-related questions, styling suggestions and selecting an appropriate saree or ethnic-wear option for your occasion.",
-  },
-  {
     question: "What is your return or exchange policy?",
     answer:
       "Return and exchange eligibility depends on the product and its condition. Please contact our support team before sending an item back so we can guide you through the applicable process.",
@@ -42,6 +37,11 @@ const faqs = [
     question: "How can I contact Gouri Pooja Creations?",
     answer:
       "You can reach us through the contact section of our website by phone or email. Our team will be happy to assist you with product, order and wholesale enquiries.",
+  },
+  {
+    question: "Which landmark is the nearest?",
+    answer:
+      "You can easily locate the establishment, as it is in close proximity to the upper ground.",
   },
 ];
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 const quickLinks = [
   ["Home", "#home"],
   ["Collections", "#collections"],
-  ["Our Story", "#our-story"],
+  ["About Us", "#our-story"],
 ];
 
 const aboutLinks = [
@@ -218,15 +218,11 @@ export default function Footer() {
               <div className="min-w-0">
 
                 <p className="text-[10px] uppercase leading-5 tracking-[0.14em] text-[#cfa59d]">
-                  Gouri Pooja
-                  <br />
-                  Creations
+                  Gouri Pooja Creations
                 </p>
 
                 <p className="mt-2 text-[11px] leading-5 text-[#e1c1b9]">
-                  Crafted with heritage,
-                  <br />
-                  made for today.
+                  Crafted with heritage, made for today.
                 </p>
 
               </div>
@@ -288,7 +284,7 @@ export default function Footer() {
 
           <div>
             <p className="text-[10px] leading-5 text-[#d7b8b0] md:text-[11px]">
-              © 2024 Gouri Pooja Creations. All rights reserved.
+              © 2026 Gouri Pooja Creations. All rights reserved.
             </p>
           </div>
 

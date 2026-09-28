@@ -32,17 +32,17 @@ const categories = [
   },
   {
     title: "Anarkali Suits",
-    subtitle: "Make Moments Special",
+    subtitle: "Grace in Every Twirl",
     image: "/category/Anarkli.jpg",
   },
   {
     title: "Suits",
-    subtitle: "Make Moments Special",
+    subtitle: "Classic Style, Modern Comfort",
     image: "/category/Suit.png",
   },
   {
     title: "Kurtis",
-    subtitle: "Make Moments Special",
+    subtitle: "Easy Style, Every Day",
     image: "/category/Kurti.jpg",
   },
 ];
@@ -61,7 +61,7 @@ export default function FindYourDrape() {
 
   return (
     <section className="w-full bg-[#ffffff] px-4 py-16 sm:px-6 md:px-8 md:py-20 lg:px-12 lg:py-24">
-      <div className="mx-auto max-w-[1440px]">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="grid grid-cols-4 gap-y-10 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-8">
           {/* LEFT CONTENT */}
           <div className="col-span-4 md:col-span-3 lg:col-span-3">

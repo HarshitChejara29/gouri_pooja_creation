@@ -101,7 +101,7 @@ export default function Values() {
         {/* Heading */}
         <div className="text-center">
 
-          <p className="mb-4 text-[9px] font-medium uppercase tracking-[0.38em] text-[#a99983] md:text-[10px]">
+          <p className="mb-4 text-[9px] font-medium uppercase tracking-[0.18em] text-[#E34234] md:text-[10px]">
             Our Values
           </p>
 
@@ -126,7 +126,7 @@ export default function Values() {
             >
 
               {/* Icon */}
-              <div className="mb-6 flex h-[58px] w-[58px] items-center justify-center text-[#b19a78]">
+              <div className="mb-6 flex h-[58px] w-[58px] items-center justify-center text-[#E34234]">
                 <div className="h-14 w-14">
                   {value.icon}
                 </div>
