@@ -6,47 +6,47 @@ import { useRef } from "react";
 
 const products = [
   {
-    name: "Rani Pink Banarasi Saree",
+    name: "Traditional Banarasi Silk Saree with Floral Pattern",
     price: "₹ 2,499",
     image: "/collection/collection1.jpg",
   },
   {
-    name: "Rust Organza Saree",
+    name: "Floral Print Organza Saree, Pearl Lace Border, Digital Print",
     price: "₹ 2,999",
     image: "/collection/collection2.jpg",
   },
   {
-    name: "Maroon Zari Saree",
+    name: "Yellow Designer Saree, Sequin Hand Embroidered, Feather Border",
     price: "₹ 3,499",
     image: "/collection/collection3.jpg",
   },
   {
-    name: "Sage Green Embroidered Suit",
+    name: "Embroidered Zari Border Georgette Saree, Magenta Pink, Party Wear",
     price: "₹ 2,799",
     image: "/collection/collection4.jpg",
   },
   {
-    name: "Mustard Silk Saree",
+    name: "Floral Printed Silk Blend Saree, Woven Zari Border, Sea Green",
     price: "₹ 2,199",
     image: "/collection/collection5.jpg",
   },
   {
-    name: "Mustard Silk Saree",
+    name: "Pink Silk Saree For Women",
     price: "₹ 2,199",
     image: "/collection/collection6.jpg",
   },
   {
-    name: "Mustard Silk Saree",
+    name: "Embroidered Georgette Saree, Floral Thread Work, Contrast Border",
     price: "₹ 2,199",
     image: "/collection/collection7.jpg",
   },
   {
-    name: "Mustard Silk Saree",
+    name: "Hand Block Printed Cotton Saree, Floral Motif, Light Blue",
     price: "₹ 2,199",
     image: "/collection/collection8.jpg",
   },
   {
-    name: "Mustard Silk Saree",
+    name: "Multi-color Striped Georgette Saree, Digital Print, Embroidered Border",
     price: "₹ 2,199",
     image: "/collection/collection9.jpg",
   },
@@ -115,12 +115,12 @@ export default function Collections() {
                 </div>
 
                 {/* PRICE */}
-                <p className="mt-2 text-[14px] font-semibold leading-5 text-[#171411]">
+                {/* <p className="mt-2 text-[14px] font-semibold leading-5 text-[#171411]">
                   {product.price}
-                </p>
+                </p> */}
 
                 {/* RATING */}
-                <div className="mt-3 flex min-h-5 items-center gap-2">
+                {/* <div className="mt-3 flex min-h-5 items-center gap-2">
                   <div className="flex items-center gap-[2px] text-[12px] leading-none text-[#E34234]" aria-label="5 out of 5 stars">
                     <span aria-hidden="true">★</span>
                     <span aria-hidden="true">★</span>
@@ -132,12 +132,12 @@ export default function Collections() {
                   <span className="text-[10px] leading-4 text-[#8d8780]">
                     (120)
                   </span>
-                </div>
+                </div> */}
 
                 {/* ADD TO CART */}
-                <button type="button" className="mt-4 flex h-12 w-full items-center justify-center bg-[#E34234] px-4 text-[12px] font-medium text-white outline-none transition-colors duration-150 hover:bg-[#720613]">
-                  Add to Cart
-                </button>
+                <Link href="#contact" type="button" className="mt-4 flex h-12 w-full items-center justify-center bg-[#E34234] px-4 text-[12px] font-medium text-white outline-none transition-colors duration-150 hover:bg-[#720613]">
+                  Get Best Price
+                </Link>
               </div>
             </article>
           ))}
