@@ -101,7 +101,7 @@ export default function Footer() {
                 alt="Gouri Pooja Creation"
                 width={220}
                 height={80}
-                className="h-auto w-[190px] md:w-[210px]"
+                className="h-auto w-[145px] md:w-[200px]"
               />
             </Link>
 
