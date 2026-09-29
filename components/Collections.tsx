@@ -6,51 +6,87 @@ import { useRef } from "react";
 
 const products = [
   {
-    name: "Traditional Banarasi Silk Saree with Floral Pattern",
+    name: "Banarasi silk saree, floral pattern",
     price: "₹ 2,499",
     image: "/collection/collection1.jpg",
   },
   {
-    name: "Floral Print Organza Saree, Pearl Lace Border, Digital Print",
+    name: "Organza saree, floral print, pearl lace border",
     price: "₹ 2,999",
     image: "/collection/collection2.jpg",
   },
   {
-    name: "Yellow Designer Saree, Sequin Hand Embroidered, Feather Border",
+    name: "Yellow designer saree, sequin embroidery, feather border",
     price: "₹ 3,499",
     image: "/collection/collection3.jpg",
   },
   {
-    name: "Embroidered Zari Border Georgette Saree, Magenta Pink, Party Wear",
+    name: "Magenta pink georgette saree, zari border, embroidered",
     price: "₹ 2,799",
     image: "/collection/collection4.jpg",
   },
   {
-    name: "Floral Printed Silk Blend Saree, Woven Zari Border, Sea Green",
+    name: "Sea green silk blend saree, floral print, woven zari border",
     price: "₹ 2,199",
     image: "/collection/collection5.jpg",
   },
   {
-    name: "Pink Silk Saree For Women",
+    name: "Pink silk saree",
     price: "₹ 2,199",
     image: "/collection/collection6.jpg",
   },
   {
-    name: "Embroidered Georgette Saree, Floral Thread Work, Contrast Border",
+    name: "Georgette saree, floral thread work, contrast border",
     price: "₹ 2,199",
     image: "/collection/collection7.jpg",
   },
   {
-    name: "Hand Block Printed Cotton Saree, Floral Motif, Light Blue",
+    name: "Light blue cotton saree, hand block print, floral motif",
     price: "₹ 2,199",
     image: "/collection/collection8.jpg",
   },
   {
-    name: "Multi-color Striped Georgette Saree, Digital Print, Embroidered Border",
+    name: "Multi-color striped georgette saree, digital print, embroidered border",
     price: "₹ 2,199",
     image: "/collection/collection9.jpg",
   },
 ];
+
+/* Carbon 32px arrow icons */
+const ArrowLeft = () => (
+  <svg
+    aria-hidden="true"
+    width="20"
+    height="20"
+    viewBox="0 0 32 32"
+    fill="currentColor"
+  >
+    <path d="M14 26l1.41-1.41L7.83 17H28v-2H7.83l7.58-7.59L14 6 4 16 14 26z" />
+  </svg>
+);
+
+const ArrowRight = () => (
+  <svg
+    aria-hidden="true"
+    width="20"
+    height="20"
+    viewBox="0 0 32 32"
+    fill="currentColor"
+  >
+    <path d="M18 6l-1.43 1.393L24.15 15H4v2h20.15l-7.58 7.573L18 26l10-10L18 6z" />
+  </svg>
+);
+
+/* Carbon focus */
+const focusRing =
+  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0f62fe]";
+
+/* Carbon motion */
+const fast =
+  "duration-[110ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
+
+const moderate =
+  "duration-[240ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
 
 export default function Collections() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -64,87 +100,133 @@ export default function Collections() {
     });
   };
 
+  const arrowButton = `flex h-11 w-11 shrink-0 items-center justify-center border border-[#8d8d8d] bg-transparent text-[#161616] transition-colors ${fast} hover:border-[#E34234] hover:bg-[#E34234] hover:text-white ${focusRing}`;
+
   return (
-    <section id="collections" className="bg-[#ffffff] text-[#171411]">
+    <section
+      id="collections"
+      className="bg-[#ffffff] text-[#161616]"
+    >
       <div className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 md:px-8 md:py-20 lg:px-12 lg:py-24">
-        {/* SECTION HEADER */}
+
+        {/* =====================================================
+            SECTION HEADER
+        ===================================================== */}
         <div className="grid grid-cols-4 items-end md:grid-cols-8 lg:grid-cols-12">
           <div className="col-span-4 md:col-span-6 lg:col-span-8">
-            <p className="mb-4 text-[10px] font-medium uppercase tracking-[0.18em] text-[#E34234]">
-              Trending Now
+            <p className="mb-4 text-xs uppercase leading-4 tracking-[0.32px] text-[#E34234]">
+              New in
             </p>
 
-            <h2 className="font-serif text-[38px] font-normal leading-[1.05] tracking-[-0.8px] md:text-[46px] lg:text-[52px]">
-              Our Latest Collection
+            <h2 className="font-serif text-[32px] font-normal leading-10 md:text-[42px] md:leading-[50px] lg:text-[54px] lg:leading-[64px]">
+              New arrivals
             </h2>
 
-            <p className="mt-4 max-w-[470px] text-[13px] leading-6 text-[#858078] md:text-[14px] md:leading-7">
-              Explore our collection of sarees, ready-made garments and ethnic wear.
+            <p className="mt-4 max-w-[470px] text-sm leading-5 tracking-[0.16px] text-[#525252]">
+              Sarees in silk, organza, georgette and cotton. Ask us for the
+              price of any piece.
             </p>
           </div>
 
-          {/* CAROUSEL CONTROLS */}
-          <div className="col-span-4 mt-8 flex items-center justify-start gap-2 md:col-span-2 md:col-start-7 md:mt-0 md:justify-end lg:col-span-4 lg:col-start-9">
-            <button type="button" onClick={() => scroll("left")} aria-label="Previous products" className="flex h-12 w-12 items-center justify-center border border-[#d8cec4] bg-transparent text-[#302821] outline-none transition-colors duration-150 hover:border-[#E34234] hover:bg-[#E34234] hover:text-white">
-              <span aria-hidden="true" className="text-[18px] leading-none">
-                ←
-              </span>
+          {/* =================================================
+              DESKTOP CAROUSEL CONTROLS
+          ================================================= */}
+          <div className="col-span-4 hidden items-center justify-end gap-2 md:col-span-2 md:col-start-7 lg:col-span-4 lg:col-start-9 lg:flex">
+            <button
+              type="button"
+              onClick={() => scroll("left")}
+              aria-label="Previous products"
+              className={arrowButton}
+            >
+              <ArrowLeft />
             </button>
 
-            <button type="button" onClick={() => scroll("right")} aria-label="Next products" className="flex h-12 w-12 items-center justify-center border border-[#d8cec4] bg-transparent text-[#302821] outline-none transition-colors duration-150 hover:border-[#E34234] hover:bg-[#E34234] hover:text-white">
-              <span aria-hidden="true" className="text-[18px] leading-none">
-                →
-              </span>
+            <button
+              type="button"
+              onClick={() => scroll("right")}
+              aria-label="Next products"
+              className={arrowButton}
+            >
+              <ArrowRight />
             </button>
           </div>
         </div>
 
-        {/* PRODUCT CAROUSEL */}
-        <div ref={scrollRef} className="scrollbar-hide mt-12 flex gap-4 overflow-x-auto pb-2 sm:gap-5 md:mt-14 lg:gap-6">
+        {/* =====================================================
+            PRODUCT CAROUSEL
+        ===================================================== */}
+        <div
+          ref={scrollRef}
+          className="scrollbar-hide mt-6 flex gap-4 overflow-x-auto pb-2 sm:mt-8 md:mt-10 lg:gap-6"
+        >
           {products.map((product, index) => (
-            <article key={`${product.name}-${index}`} className="group w-[calc((100vw-48px)/2)] shrink-0 sm:w-[260px] md:w-[280px] lg:w-[calc((100%-96px)/5)] lg:min-w-[220px] xl:min-w-[250px]">
-              {/* PRODUCT IMAGE */}
-              <Link href="#collections" aria-label={`View ${product.name}`} className="relative block aspect-[0.72] overflow-hidden bg-[#eee8df] outline-none">
-                <Image src={product.image} alt={product.name} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 280px, 20vw" className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]" />
-
-                <div aria-hidden="true" className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/5" />
+            <article
+              key={`${product.name}-${index}`}
+              className="group flex h-full w-[calc((100vw-48px)/2)] shrink-0 flex-col sm:w-[260px] md:w-[280px] lg:w-[calc((100%-96px)/5)] lg:min-w-[220px] xl:min-w-[250px]"
+            >
+              {/* =================================================
+                  PRODUCT IMAGE
+              ================================================= */}
+              <Link
+                href="#collections"
+                aria-label={`View ${product.name}`}
+                className={`relative block aspect-[0.72] shrink-0 overflow-hidden bg-[#e0e0e0] ${focusRing}`}
+              >
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 280px, 20vw"
+                  className={`object-cover transition-transform ${moderate} group-hover:scale-[1.035] motion-reduce:group-hover:scale-100`}
+                />
               </Link>
 
               {/* PRODUCT INFORMATION */}
-              <div className="pt-4">
-                <div className="min-h-[40px]">
-                  <h3 className="text-[13px] font-semibold leading-5 text-[#171411] md:text-[14px]">
+              <div className="flex h-[126px] flex-col pt-4">
+
+                {/* PRODUCT NAME — FIXED HEIGHT */}
+                <div className="h-[54px] overflow-hidden">
+                  <h3 className="text-sm font-semibold leading-[18px] tracking-[0.16px] text-[#161616]">
                     {product.name}
                   </h3>
                 </div>
 
-                {/* PRICE */}
-                {/* <p className="mt-2 text-[14px] font-semibold leading-5 text-[#171411]">
-                  {product.price}
-                </p> */}
-
-                {/* RATING */}
-                {/* <div className="mt-3 flex min-h-5 items-center gap-2">
-                  <div className="flex items-center gap-[2px] text-[12px] leading-none text-[#E34234]" aria-label="5 out of 5 stars">
-                    <span aria-hidden="true">★</span>
-                    <span aria-hidden="true">★</span>
-                    <span aria-hidden="true">★</span>
-                    <span aria-hidden="true">★</span>
-                    <span aria-hidden="true">★</span>
-                  </div>
-
-                  <span className="text-[10px] leading-4 text-[#8d8780]">
-                    (120)
-                  </span>
-                </div> */}
-
-                {/* ADD TO CART */}
-                <Link href="#contact" type="button" className="mt-4 flex h-12 w-full items-center justify-center bg-[#E34234] px-4 text-[12px] font-medium text-white outline-none transition-colors duration-150 hover:bg-[#720613]">
-                  Get Best Price
-                </Link>
+                {/* ENQUIRY BUTTON — FIXED AT BOTTOM */}
+                <div className="mt-auto">
+                  <Link
+                    href="#contact"
+                    className={`flex h-12 w-full items-center justify-center bg-[#E34234] px-4 text-sm font-medium leading-[18px] tracking-[0.16px] text-white transition-colors ${fast} hover:bg-[#a2191f] ${focusRing}`}
+                  >
+                    Ask for price
+                  </Link>
+                </div>
               </div>
             </article>
           ))}
+        </div>
+
+        {/* =====================================================
+            MOBILE CAROUSEL CONTROLS
+            BELOW PRODUCTS + RIGHT ALIGNED
+        ===================================================== */}
+        <div className="mt-5 flex items-center justify-end gap-2 lg:hidden">
+          <button
+            type="button"
+            onClick={() => scroll("left")}
+            aria-label="Previous products"
+            className={arrowButton}
+          >
+            <ArrowLeft />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scroll("right")}
+            aria-label="Next products"
+            className={arrowButton}
+          >
+            <ArrowRight />
+          </button>
         </div>
       </div>
     </section>

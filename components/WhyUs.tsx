@@ -5,10 +5,10 @@ import Link from "next/link";
 
 const reasons = [
   {
-    title: "Saree Manufacturers",
-    subtitle: "Traditional & contemporary sarees",
+    title: "Saree manufacturers",
+    subtitle: "Traditional and contemporary sarees",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M4 20h16" />
         <path d="M6 20V9l6-5 6 5v11" />
         <path d="M9 20v-6h6v6" />
@@ -17,10 +17,10 @@ const reasons = [
     ),
   },
   {
-    title: "Saree Wholesalers",
-    subtitle: "Collections for bulk requirements",
+    title: "Saree wholesalers",
+    subtitle: "Bulk orders",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M4 8h16" />
         <path d="M6 8v12h12V8" />
         <path d="M8 8V5h8v3" />
@@ -30,10 +30,10 @@ const reasons = [
     ),
   },
   {
-    title: "Saree Retailers",
-    subtitle: "Curated designs for retail",
+    title: "Saree retailers",
+    subtitle: "Sarees sold individually",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M3.5 10 5 5h14l1.5 5" />
         <path d="M4 10v9h16v-9" />
         <path d="M3.5 10c0 1.5 1.2 2.5 2.5 2.5S8.5 11.5 8.5 10c0 1.5 1.2 2.5 2.5 2.5s2.5-1 2.5-2.5c0 1.5 1.2 2.5 2.5 2.5s2.5-1 2.5-2.5c0 1.5 1.2 2.5 2.5 2.5" />
@@ -42,10 +42,10 @@ const reasons = [
     ),
   },
   {
-    title: "Ready-made Garment Retailers",
+    title: "Ready-made garment retailers",
     subtitle: "Ready-to-wear collections",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M9 4h6" />
         <path d="M12 4v3" />
         <path d="M7 7h10" />
@@ -57,10 +57,10 @@ const reasons = [
     ),
   },
   {
-    title: "Fabric Manufacturers",
-    subtitle: "Fabrics & textile requirements",
+    title: "Fabric manufacturers",
+    subtitle: "Fabrics for textile needs",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M4 6h16" />
         <path d="M4 18h16" />
         <path d="M6 6v12" />
@@ -72,10 +72,10 @@ const reasons = [
     ),
   },
   {
-    title: "Ready-made Garment Wholesalers",
+    title: "Ready-made garment wholesalers",
     subtitle: "Bulk ready-to-wear supply",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M8 5h8l3 4-3 2v8H8v-8L5 9l3-4Z" />
         <path d="M9 5c0 2 1.2 3 3 3s3-1 3-3" />
         <path d="M8 12h8" />
@@ -83,10 +83,10 @@ const reasons = [
     ),
   },
   {
-    title: "Women Ready-made Garment Retailers",
-    subtitle: "Fashion-led retail collections",
+    title: "Women's garment retailers",
+    subtitle: "Women's ready-to-wear",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <path d="M9 5c0 1.7 1.3 3 3 3s3-1.3 3-3" />
         <path d="M9 5c-1 2.5-2 4.5-4 6l3 2 1 7h6l1-7 3-2c-2-1.5-3-3.5-4-6" />
         <path d="M9 20h6" />
@@ -94,10 +94,10 @@ const reasons = [
     ),
   },
   {
-    title: "Ready-made Garment Manufacturers",
-    subtitle: "Manufacturing & sourcing needs",
+    title: "Ready-made garment manufacturers",
+    subtitle: "Manufacturing and sourcing",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" className="h-5 w-5" aria-hidden="true">
         <circle cx="7" cy="17" r="3" />
         <circle cx="17" cy="7" r="2" />
         <path d="M7 14V8h5l3 3v3" />
@@ -109,36 +109,41 @@ const reasons = [
   },
 ];
 
+/* Carbon focus: 2px #0f62fe */
+const focusRing =
+  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0f62fe]";
+
+/* Carbon motion: fast-01 110ms, productive easing */
+const fast = "duration-[110ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
+
 export default function WhyUs() {
   return (
-    <section id="why-us" className="bg-[#faf8f4] text-[#1d1915]">
+    <section id="why-us" className="bg-[#faf8f4] text-[#161616]">
       <div className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 md:px-8 md:py-20 lg:px-12 lg:py-24">
-        <div className="grid grid-cols-4 items-center gap-y-14 md:grid-cols-8 md:gap-y-16 lg:grid-cols-12 lg:gap-x-8">
-
+        <div className="grid grid-cols-4 items-center gap-y-10 md:grid-cols-8 md:gap-y-16 lg:grid-cols-12 lg:gap-x-8">
           {/* LEFT CONTENT */}
-
           <div className="col-span-4 md:col-span-8 lg:col-span-4">
             <div className="max-w-[450px]">
-              <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#E34234]">
-                Why Choose Us
+              {/* label-01: 12/16, 0.32px */}
+              <p className="mb-4 text-xs uppercase leading-4 tracking-[0.32px] text-[#E34234]">
+                What we do
               </p>
 
-              <h2 className="max-w-[440px] font-serif text-[40px] font-normal leading-[1.05] tracking-[-0.8px] md:text-[48px] lg:text-[52px]">
-                A Wide Range,
-                <br />
-                All Under One Roof
+              {/* heading-05 (32/40) -> heading-06 (42/50) -> heading-07 (54/64) */}
+              <h2 className="max-w-[440px] font-serif text-[32px] font-normal leading-10 md:text-[42px] md:leading-[50px] lg:text-[54px] lg:leading-[64px]">
+                Sarees, garments and fabrics in one place
               </h2>
 
-              <p className="mt-7 max-w-[420px] text-[13px] leading-6 text-[#858078] md:text-[14px] md:leading-7">
-                Gouri Pooja Creation offers products and services to cater to
-                varied customer requirements, including sarees, ready-made
-                garments and fabrics.
+              {/* body-01: 14/20 -> body-02: 16/24 */}
+              <p className="mt-6 max-w-[420px] text-sm leading-5 tracking-[0.16px] text-[#525252] md:text-base md:leading-6 md:tracking-normal">
+                From our base on Ring Road, Surat, we manufacture, wholesale and retail sarees, ready-made garments and fabrics.
               </p>
 
-              <Link href="#why-us" className="group mt-8 inline-flex min-h-12 items-center gap-4 border-b border-[#E34234] text-[12px] font-medium text-[#E34234] outline-none transition-all duration-150 hover:gap-6">
-                <span>Learn More</span>
+              {/* body-compact-01: 14/18, 0.16px */}
+              <Link href="#contact" className={`group mt-2 lg:mt-8 inline-flex min-h-12 items-center gap-4 border-b border-[#E34234] text-sm font-medium leading-[18px] tracking-[0.16px] text-[#E34234] transition-all ${fast} hover:gap-6 ${focusRing}`}>
+                <span>Know More</span>
 
-                <span aria-hidden="true" className="text-[16px] leading-none transition-transform duration-150 group-hover:translate-x-1">
+                <span aria-hidden="true" className={`text-base leading-none transition-transform ${fast} group-hover:translate-x-1`}>
                   →
                 </span>
               </Link>
@@ -146,49 +151,42 @@ export default function WhyUs() {
           </div>
 
           {/* CENTER IMAGE */}
-
           <div className="relative col-span-4 md:col-span-8 lg:col-span-5">
             <div className="relative aspect-[1.35] w-full overflow-hidden">
               <Image
                 src="/about/Full_Shop.png"
-                alt="Gouri Pooja Creations store"
+                alt="Inside the Gouri Pooja Creation store"
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 42vw"
-                className="object-cover transition-transform duration-500 ease-out hover:scale-[1.02]"
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover"
               />
             </div>
           </div>
 
           {/* RIGHT BUSINESS TYPES */}
-
           <div className="col-span-4 md:col-span-8 lg:col-span-3">
-
-              {reasons.map((reason) => (
-                <div key={reason.title} className="flex items-center gap-3 py-1">
-
-                  {/* ICON */}
-
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-[#ded5c8] text-[#E34234]">
-                    {reason.icon}
-                  </div>
-
-                  {/* BUSINESS INFORMATION */}
-
-                  <div className="min-w-0">
-                    <h3 className="text-[11px] font-semibold leading-[1.35] text-[#3d3833] md:text-[12px]">
-                      {reason.title}
-                    </h3>
-
-                    <p className="mt-1 text-[10px] leading-4 text-[#968e86]">
-                      {reason.subtitle}
-                    </p>
-                  </div>
-
+            {reasons.map((reason) => (
+              <div key={reason.title} className="flex items-center gap-3 py-1">
+                {/* ICON */}
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-[#c6c6c6] text-[#E34234]">
+                  {reason.icon}
                 </div>
-              ))}
 
+                {/* BUSINESS INFORMATION */}
+                <div className="min-w-0">
+                  {/* body-compact-01 semibold: 14/18, 0.16px */}
+                  <h3 className="text-sm font-semibold leading-[18px] tracking-[0.16px] text-[#161616]">
+                    {reason.title}
+                  </h3>
+
+                  {/* helper-text-01: 12/16, 0.32px */}
+                  <p className="mt-1 text-xs leading-4 tracking-[0.32px] text-[#525252]">
+                    {reason.subtitle}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-
         </div>
       </div>
     </section>

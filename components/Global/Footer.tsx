@@ -1,21 +1,30 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const quickLinks = [
-  ["Home", "#home"],
-  ["Collections", "#collections"],
-  ["About Us", "#our-story"],
-];
-
-const aboutLinks = [
-  ["Legacy", "#legacy"],
-  ["Why Choose Us", "#why-us"],
-  ["Customer Reviews", "#testimonials"],
-];
-
-const supportLinks = [
-  ["Contact Us", "#contact"],
-  ["FAQ", "#faq"],
+const linkGroups = [
+  {
+    title: "Explore",
+    links: [
+      ["Home", "/"],
+      ["Collections", "#collections"],
+      ["About us", "#our-story"],
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      ["Legacy", "#legacy"],
+      ["What we do", "#why-us"],
+      ["Reviews", "#testimonials"],
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      ["Contact", "#contact"],
+      ["FAQ", "#faq"],
+    ],
+  },
 ];
 
 const socialLinks = [
@@ -23,7 +32,7 @@ const socialLinks = [
     label: "Instagram",
     href: "https://www.instagram.com/",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4" aria-hidden="true">
         <rect x="3" y="3" width="18" height="18" rx="5" />
         <circle cx="12" cy="12" r="4" />
         <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
@@ -34,7 +43,7 @@ const socialLinks = [
     label: "Facebook",
     href: "https://www.facebook.com/",
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
         <path d="M14 8h3V4h-3c-3.3 0-5 1.9-5 5v3H6v4h3v4h4v-4h3.2l.8-4H13V9c0-.7.3-1 1-1Z" />
       </svg>
     ),
@@ -43,7 +52,7 @@ const socialLinks = [
     label: "YouTube",
     href: "https://www.youtube.com/",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4" aria-hidden="true">
         <rect x="3" y="6" width="18" height="12" rx="3" />
         <path d="m10 9 5 3-5 3V9Z" fill="currentColor" stroke="none" />
       </svg>
@@ -53,7 +62,7 @@ const socialLinks = [
     label: "Justdial",
     href: "https://www.justdial.com/Surat/Gouri-Pooja-Creation-upper-ground-Ring-Road/0261PX261-X261-190709213933-V8Q1_BZDET",
     icon: (
-      <span className="text-[10px] font-bold leading-none">
+      <span aria-hidden="true" className="text-xs font-semibold leading-4">
         JD
       </span>
     ),
@@ -62,253 +71,111 @@ const socialLinks = [
     label: "IndiaMART",
     href: "https://www.indiamart.com/gouri-pooja-creation/aboutus.html",
     icon: (
-      <span className="text-[9px] font-bold leading-none">
+      <span aria-hidden="true" className="text-xs font-semibold leading-4">
         IM
       </span>
     ),
   },
 ];
 
+/* Carbon focus on dark backgrounds (inverse): 2px white */
+const focusRing =
+  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+
+/* Carbon motion: fast-01 110ms, productive easing */
+const fast = "duration-[110ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
+
+/* label-01: 12/16, 0.32px */
+const label = "text-xs leading-4 tracking-[0.32px] text-[#c6c6c6]";
+
 export default function Footer() {
   return (
-    <footer className="bg-[#1C1A17] text-[#f4ddd5]">
-      <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 md:px-8 md:py-16 lg:px-12 lg:py-20">
-
-        {/* =====================================================
-            MAIN FOOTER
-        ====================================================== */}
-
-        <div className="grid grid-cols-1 gap-y-12 md:grid-cols-2 lg:grid-cols-[1.45fr_1fr_1fr_1fr_1.35fr] lg:gap-0">
-
-          {/* =================================================
-              COLUMN 1 — BRAND
-          ================================================= */}
-
-          <div className="lg:pr-10">
-
-            <Link href="#home" className="inline-flex min-h-12 items-center outline-none">
+    <footer className="bg-[#161616] text-[#f4f4f4]">
+      <div className="mx-auto max-w-[1440px] px-4 pb-6 pt-14 sm:px-6 md:px-8 md:pt-16 lg:px-12 lg:pt-20">
+        <div className="grid grid-cols-4 gap-y-12 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-8">
+          {/* BRAND + SOCIAL */}
+          <div className="col-span-4 md:col-span-8 lg:col-span-5">
+            <Link href="/" className={`inline-flex min-h-12 items-center ${focusRing}`}>
               <Image
                 src="/white_logo.png"
-                alt="Gouri Pooja Creations"
+                alt="Gouri Pooja Creation"
                 width={220}
                 height={80}
-                className="h-auto w-[175px] md:w-[190px]"
+                className="h-auto w-[190px] md:w-[210px]"
               />
             </Link>
 
-            <p className="mt-7 max-w-[330px] text-[13px] leading-6 text-[#e8c9c0] md:text-[14px] md:leading-7">
-              Your trusted destination for ethnic wear.
-              <br />
-              Tradition. Style. You.
+            {/* body-01: 14/20, 0.16px */}
+            <p className="mt-6 max-w-[340px] text-sm leading-5 tracking-[0.16px] text-[#c6c6c6]">
+              Sarees, garments and fabrics. Manufacturing, wholesale and retail, in Surat since 2019.
             </p>
 
-            <div className="mt-8 border-t border-[#6B6560]/40 pt-6">
-              <p className="max-w-[300px] font-serif text-[22px] leading-[1.2] text-[#f0d5cd] md:text-[24px]">
-                “Tradition Today
-                <br />
-                Tomorrow Always”
-              </p>
-            </div>
-
-          </div>
-
-
-          {/* =================================================
-              COLUMN 2 — EXPLORE
-          ================================================= */}
-
-          <div className="px-6 md:px-7 lg:px-7">
-
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#f0d5cd]">
-              Explore
-            </p>
-
-            <nav className="flex flex-col">
-              {quickLinks.map(([label, href]) => (
-                <Link
-                  key={`${label}-${href}`}
-                  href={href}
-                  className="flex min-h-11 items-center border-b border-[#6B6560]/30 text-[12px] text-[#e5c8c0] outline-none transition-colors duration-150 hover:text-white"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-
-          </div>
-
-
-          {/* =================================================
-              COLUMN 3 — DISCOVER
-          ================================================= */}
-
-          <div className="px-6 md:px-7 lg:px-7">
-
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#f0d5cd]">
-              Discover
-            </p>
-
-            <nav className="flex flex-col">
-              {aboutLinks.map(([label, href]) => (
-                <Link
-                  key={`${label}-${href}`}
-                  href={href}
-                  className="flex min-h-11 items-center border-b border-[#6B6560]/30 text-[12px] text-[#e5c8c0] outline-none transition-colors duration-150 hover:text-white"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-
-          </div>
-
-
-          {/* =================================================
-              COLUMN 4 — SUPPORT
-          ================================================= */}
-
-          <div className="px-6 md:px-7 lg:px-7">
-
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.16em] text-[#f0d5cd]">
-              Support
-            </p>
-
-            <nav className="flex flex-col">
-              {supportLinks.map(([label, href]) => (
-                <Link
-                  key={`${label}-${href}`}
-                  href={href}
-                  className="flex min-h-11 items-center border-b border-[#6B6560]/30 text-[12px] text-[#e5c8c0] outline-none transition-colors duration-150 hover:text-white"
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
-
-          </div>
-
-
-          {/* =================================================
-              COLUMN 5 — BRAND + SOCIAL
-          ================================================= */}
-
-          <div className="px-5 md:px-6 lg:px-6">
-
-            {/* BRAND IDENTITY */}
-
-            <div className="flex items-start gap-4">
-
-              <svg
-                width="42"
-                height="52"
-                viewBox="0 0 58 70"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="mt-1 shrink-0 text-[#d9afa5] opacity-70"
-                aria-hidden="true"
-              >
-                <circle cx="29" cy="18" r="13" stroke="currentColor" strokeWidth="1.2" />
-                <circle cx="16" cy="30" r="13" stroke="currentColor" strokeWidth="1.2" />
-                <circle cx="42" cy="30" r="13" stroke="currentColor" strokeWidth="1.2" />
-                <path d="M29 43C29 43 25 53 18 58" stroke="currentColor" strokeWidth="1.2" />
-                <path d="M29 43C29 43 33 53 40 58" stroke="currentColor" strokeWidth="1.2" />
-                <path d="M18 58H40" stroke="currentColor" strokeWidth="1.2" />
-              </svg>
-
-              <div className="min-w-0">
-
-                <p className="text-[10px] uppercase leading-5 tracking-[0.14em] text-[#cfa59d]">
-                  Gouri Pooja Creations
-                </p>
-
-                <p className="mt-2 text-[11px] leading-5 text-[#e1c1b9]">
-                  Crafted with heritage, made for today.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            {/* CONNECT WITH US */}
-
-            <div className="mt-8 border-t border-[#6B6560]/40 pt-6">
-
-              <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#f0d5cd]">
-                Connect With Us
-              </p>
+            <div className="mt-8">
+              <p className={label}>Find us online</p>
 
               {/* ALL 5 ICONS IN ONE LINE */}
-
-              <div className="mt-4 flex w-full flex-nowrap items-center gap-2">
-
+              <div className="mt-3 flex flex-nowrap items-center gap-2">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={social.label}
+                    aria-label={`${social.label} (opens in a new tab)`}
                     title={social.label}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center border border-[#6B6560]/50 text-[#e5c8c0] outline-none transition-all duration-150 hover:border-[#f0d5cd] hover:bg-[#E34234] hover:text-white"
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center border border-[#6f6f6f] text-[#f4f4f4] transition-colors ${fast} hover:border-[#E34234] hover:bg-[#E34234] hover:text-white ${focusRing}`}
                   >
                     {social.icon}
                   </a>
                 ))}
-
               </div>
-
-              <p className="mt-4 max-w-[260px] text-[10px] leading-5 text-[#cfa59d]">
-                Follow our latest collections, updates and craftsmanship.
-              </p>
-
             </div>
-
           </div>
 
+          {/* LINK COLUMNS */}
+          <div className="col-span-4 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 md:col-span-8 lg:col-span-6 lg:col-start-7">
+            {linkGroups.map((group) => (
+              <nav key={group.title} aria-label={group.title}>
+                <p className={`${label} mb-3`}>{group.title}</p>
+
+                <span className="block w-full border-t border-[#393939]" />
+
+                <ul className="mt-3 flex flex-col">
+                  {group.links.map(([name, href]) => (
+                    <li key={`${name}-${href}`}>
+                      <Link
+                        href={href}
+                        className={`flex min-h-11 items-center text-sm leading-[18px] tracking-[0.16px] text-[#f4f4f4] transition-colors ${fast} hover:text-[#ff8389] ${focusRing}`}
+                      >
+                        {name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
         </div>
 
+        {/* BOTTOM BAR */}
+        <div className="mt-14 flex flex-col gap-y-2 border-t border-[#393939] pt-4 md:mt-16 md:flex-row md:items-center md:justify-between">
+          <p className={label}>© 2026 Gouri Pooja Creation. All rights reserved.</p>
 
-        {/* =====================================================
-            FOOTER DIVIDER
-        ====================================================== */}
-
-        <div className="mt-14 border-t border-[#6B6560]/40 md:mt-16" />
-
-
-        {/* =====================================================
-            BOTTOM FOOTER
-        ====================================================== */}
-
-        <div className="grid grid-cols-1 gap-y-5 pt-6 md:grid-cols-2 md:items-center">
-
-          <div>
-            <p className="text-[10px] leading-5 text-[#d7b8b0] md:text-[11px]">
-              © 2026 Gouri Pooja Creations. All rights reserved.
-            </p>
-          </div>
-
-          <nav
-            className="flex flex-wrap items-center gap-x-6 gap-y-2 md:justify-end"
-            aria-label="Legal"
-          >
-            <Link
-              href="/privacy-policy"
-              className="text-[10px] text-[#d7b8b0] outline-none transition-colors duration-150 hover:text-white"
-            >
-              Privacy Policy
+          <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-6">
+            <Link href="/privacy-policy" className={`flex min-h-11 items-center ${label} transition-colors ${fast} hover:text-white ${focusRing}`}>
+              Privacy policy
             </Link>
 
-            <Link
-              href="/terms"
-              className="text-[10px] text-[#d7b8b0] outline-none transition-colors duration-150 hover:text-white"
-            >
-              Terms & Conditions
+            <Link href="/terms" className={`flex min-h-11 items-center ${label} transition-colors ${fast} hover:text-white ${focusRing}`}>
+              Terms and conditions
+            </Link>
+
+            <Link href="#home" className={`flex min-h-11 items-center gap-2 ${label} transition-colors ${fast} hover:text-white ${focusRing}`}>
+              Back to top
+              <span aria-hidden="true">↑</span>
             </Link>
           </nav>
-
         </div>
-
       </div>
     </footer>
   );

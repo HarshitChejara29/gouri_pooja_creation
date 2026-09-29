@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const testimonials = [
   {
@@ -36,20 +36,43 @@ const testimonials = [
   },
 ];
 
+/* Carbon focus: 2px #0f62fe */
+const focusRing =
+  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0f62fe]";
+
+/* Carbon motion: fast-01 110ms, productive easing */
+const fast = "duration-[110ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
+
 export default function Testimonials() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
-  const pausedRef = useRef(false);
+  const hoverRef = useRef(false);
+  const focusRef = useRef(false);
+  const manualRef = useRef(false);
+
+  const [manualPause, setManualPause] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    manualRef.current = manualPause;
+  }, [manualPause]);
 
   useEffect(() => {
     const container = scrollRef.current;
-
     if (!container) return;
+
+    // Respect the visitor's reduced-motion setting: no auto-scroll, manual scroll instead
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReducedMotion(true);
+      return;
+    }
 
     const speed = 0.45;
 
     const animate = () => {
-      if (!pausedRef.current) {
+      const paused = hoverRef.current || focusRef.current || manualRef.current;
+
+      if (!paused) {
         container.scrollLeft += speed;
 
         const resetPoint = container.scrollWidth / 2;
@@ -74,35 +97,35 @@ export default function Testimonials() {
   const duplicatedTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <section id="testimonials" className="bg-[#ffffff] text-[#1d1915]">
+    <section id="testimonials" className="bg-[#ffffff] text-[#161616]">
       <div className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 md:px-8 md:py-20 lg:px-12 lg:py-24">
         <div className="grid grid-cols-4 gap-y-10 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-8">
           <div className="col-span-4 flex flex-col justify-between md:col-span-3 lg:col-span-3">
             <div>
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#E34234]">
-                Customer Stories
+              {/* label-01: 12/16, 0.32px */}
+              <p className="text-xs uppercase leading-4 tracking-[0.32px] text-[#E34234]">
+                Reviews
               </p>
 
-              <h2 className="mt-5 max-w-[300px] font-serif text-[38px] font-normal leading-[1.06] tracking-[-0.8px] md:text-[44px] lg:text-[48px]">
-                Loved,
-                <br />
-                Worn &
-                <br />
-                Remembered.
+              {/* heading-05 (32/40) -> heading-06 (42/50) -> heading-07 (54/64) */}
+              <h2 className="mt-4 max-w-[300px] font-serif text-[32px] font-normal leading-10 md:text-[42px] md:leading-[50px] lg:text-[54px] lg:leading-[64px]">
+                What customers say
               </h2>
 
-              <p className="mt-6 max-w-[280px] text-[13px] leading-6 text-[#77716a] md:text-[14px] md:leading-7">
-                Hear from customers who have experienced Gouri Pooja Creations for their special moments.
+              {/* body-01: 14/20, 0.16px */}
+              <p className="mt-4 lg:mt-6 max-w-[280px] text-sm leading-5 tracking-[0.16px] text-[#525252]">
+                Reviews from customers who bought from Gouri Pooja Creation.
               </p>
             </div>
 
-            <div className="mt-10 hidden border-t border-[#ddd4c8] pt-5 lg:block">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-[#8c857d]">
-                Our Customers
+            <div className="mt-10 hidden border-t border-[#e0e0e0] pt-6 lg:block">
+              <p className="text-xs leading-4 tracking-[0.32px] text-[#525252]">
+                Based in
               </p>
 
-              <p className="mt-2 font-serif text-[18px] text-[#4a443e]">
-                Across India
+              {/* heading-03: 20/28 */}
+              <p className="mt-2 font-serif text-xl leading-7 text-[#161616]">
+                Surat, Gujarat
               </p>
             </div>
           </div>
@@ -110,30 +133,31 @@ export default function Testimonials() {
           <div className="col-span-4 min-w-0 md:col-span-5 lg:col-span-9">
             <div
               ref={scrollRef}
+              role="region"
+              aria-label="Customer reviews"
               onMouseEnter={() => {
-                pausedRef.current = true;
+                hoverRef.current = true;
               }}
               onMouseLeave={() => {
-                pausedRef.current = false;
+                hoverRef.current = false;
               }}
-              className="scrollbar-hide flex overflow-x-hidden border-l border-t border-[#ddd4c8]"
+              onFocus={() => {
+                focusRef.current = true;
+              }}
+              onBlur={() => {
+                focusRef.current = false;
+              }}
+              className={`scrollbar-hide flex border-l border-t border-[#e0e0e0] ${reducedMotion ? "overflow-x-auto" : "overflow-x-hidden"}`}
             >
               {duplicatedTestimonials.map((testimonial, index) => (
                 <article
                   key={`${testimonial.name}-${index}`}
-                  className="group flex min-h-[390px] w-[88vw] shrink-0 flex-col border-b border-r border-[#ddd4c8] bg-[#ffffff] p-6 transition-colors duration-200 hover:bg-[#faf8f4] sm:w-[62vw] md:w-[46%] lg:w-[34%] xl:w-[31%] md:p-7"
+                  aria-hidden={index >= testimonials.length ? true : undefined}
+                  className={`group flex min-h-[390px] w-[88vw] shrink-0 flex-col border-b border-r border-[#e0e0e0] bg-[#ffffff] p-6 transition-colors ${fast} hover:bg-[#faf8f4] sm:w-[62vw] md:w-[46%] md:p-7 lg:w-[34%] xl:w-[31%]`}
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#E34234]">
-                        Verified Buyer
-                      </span>
-
-                      <div className="mt-3 h-px w-8 bg-[#E34234]" />
-                    </div>
-
                     <span
-                      className="text-[13px] tracking-[2px] text-[#b38a4c]"
+                      className="text-sm leading-4 text-[#E34234]"
                       aria-label="5 out of 5 stars"
                     >
                       ★★★★★
@@ -141,21 +165,18 @@ export default function Testimonials() {
                   </div>
 
                   <div className="mt-10 flex-1">
-                    <span className="font-serif text-[42px] leading-none text-[#c9bcad]">
-                      “
-                    </span>
-
-                    <p className="mt-3 text-[14px] leading-7 text-[#332e29]">
+                    {/* body-02: 16/24 */}
+                    <p className="text-base leading-6 text-[#161616]">
                       {testimonial.review}
                     </p>
                   </div>
 
-                  <div className="border-t border-[#ddd4c8] pt-5">
+                  <div className="border-t border-[#e0e0e0] pt-5">
                     <div className="flex items-center gap-4">
-                      <div className="relative h-11 w-11 rounded-full shrink-0 overflow-hidden border border-[#d8cec0] bg-[#e7ded3]">
+                      <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full border border-[#c6c6c6] bg-[#e0e0e0]">
                         <Image
                           src={testimonial.image}
-                          alt={testimonial.name}
+                          alt=""
                           fill
                           sizes="44px"
                           className="object-cover"
@@ -163,11 +184,13 @@ export default function Testimonials() {
                       </div>
 
                       <div>
-                        <h3 className="text-[12px] font-semibold leading-5 text-[#25211d]">
+                        {/* body-compact-01 semibold: 14/18 */}
+                        <h3 className="text-sm font-semibold leading-[18px] tracking-[0.16px] text-[#161616]">
                           {testimonial.name}
                         </h3>
 
-                        <p className="text-[10px] uppercase tracking-[0.1em] text-[#8c857d]">
+                        {/* helper-text-01: 12/16, 0.32px */}
+                        <p className="text-xs leading-4 tracking-[0.32px] text-[#525252]">
                           Customer
                         </p>
                       </div>
@@ -177,17 +200,22 @@ export default function Testimonials() {
               ))}
             </div>
 
-            <div className="flex items-center justify-between border-b border-l border-[#ddd4c8] px-4 py-4 md:px-6">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-[#8c857d]">
-                More stories from our customers
+            <div className="flex items-center justify-between border-b border-l border-[#e0e0e0] px-4 py-4 md:px-6">
+              <p className="text-xs leading-4 tracking-[0.32px] text-[#525252]">
+                {reducedMotion
+                  ? "Scroll sideways to read more"
+                  : "Scrolls on its own. Hover to pause."}
               </p>
 
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#E34234]" />
-                <span className="text-[10px] uppercase tracking-[0.1em] text-[#8c857d]">
-                  Auto Scroll
-                </span>
-              </div>
+              {!reducedMotion && (
+                <button
+                  type="button"
+                  onClick={() => setManualPause((value) => !value)}
+                  className={`-my-4 min-h-12 px-2 text-sm font-medium leading-[18px] tracking-[0.16px] text-[#161616] underline-offset-4 transition-colors ${fast} hover:text-[#E34234] hover:underline ${focusRing}`}
+                >
+                  {manualPause ? "Play" : "Pause"}
+                </button>
+              )}
             </div>
           </div>
         </div>

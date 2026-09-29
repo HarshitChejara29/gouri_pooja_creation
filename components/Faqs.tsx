@@ -4,46 +4,65 @@ import { useState } from "react";
 
 const faqs = [
   {
-    question: "What types of sarees do you offer?",
+    question: "What types of sarees do you sell?",
     answer:
-      "We offer a curated range of sarees including Banarasi, silk, organza, zari, Net, Cotton and other traditional and contemporary styles. Our collections are selected for different occasions, from festive celebrations to weddings and everyday elegance.",
+      "Banarasi, silk, organza, zari, net and cotton sarees, in both traditional and modern styles. We stock pieces for weddings, festivals and daily wear.",
   },
   {
-    question: "How can I choose the right saree for my occasion?",
+    question: "How do I choose a saree for an occasion?",
     answer:
-      "You can explore our collections based on fabric, style and occasion. If you need help choosing a saree, our team can assist you with fabric, colour, styling and occasion-specific recommendations.",
+      "Browse by fabric, style or occasion. If you're unsure, contact us and we can suggest fabric and colour for what you're planning.",
   },
   {
-    question: "Are the sarees authentic and of good quality?",
+    question: "What is the quality like?",
     answer:
-      "We focus on fabric quality, finishing and craftsmanship when selecting our collections. Product details are provided with each saree so you can understand the fabric, design and overall finish before purchasing.",
+      "Each saree listing states its fabric, design and finish, so you know what you're buying before you order.",
   },
   {
-    question: "Do you offer delivery across India?",
+    question: "Do you deliver across India?",
     answer:
-      "Yes, we offer delivery across India. Delivery timelines can vary depending on the destination and availability of the selected product.",
+      "Yes. Delivery time depends on where you are and whether the piece is in stock.",
   },
   {
-    question: "What is your return or exchange policy?",
+    question: "Can I return or exchange an order?",
     answer:
-      "Return and exchange eligibility depends on the product and its condition. Please contact our support team before sending an item back so we can guide you through the applicable process.",
+      "It depends on the product and its condition. Please contact us before sending anything back, and we'll explain the steps.",
   },
   {
-    question: "Do you accept wholesale or bulk orders?",
+    question: "Do you take wholesale or bulk orders?",
     answer:
-      "Yes, we welcome wholesale and bulk enquiries. Please contact us with your requirements, quantity and preferred collection so our team can assist you further.",
+      "Yes. Send us the quantity and the collection you want, and we'll reply with details.",
   },
   {
-    question: "How can I contact Gouri Pooja Creations?",
+    question: "How can I contact Gouri Pooja Creation?",
     answer:
-      "You can reach us through the contact section of our website by phone or email. Our team will be happy to assist you with product, order and wholesale enquiries.",
+      "Use the phone number or email in the contact section of this website. We answer questions about products, orders and wholesale.",
   },
   {
-    question: "Which landmark is the nearest?",
-    answer:
-      "You can easily locate the establishment, as it is in close proximity to the upper ground.",
+    question: "Where are you located?",
+    answer: "We are on Ring Road, Surat.",
   },
 ];
+
+/* Carbon focus: 2px #0f62fe */
+const focusRing =
+  "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0f62fe]";
+
+/* Carbon motion: fast-01 110ms, moderate-01 240ms, productive easing */
+const fast = "duration-[110ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
+const moderate = "duration-[240ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
+
+function ContactLink() {
+  return (
+    <a
+      href="#contact"
+      className={`inline-flex min-h-12 items-center border-b border-[#E34234] text-sm font-medium leading-[18px] tracking-[0.16px] text-[#E34234] transition-colors ${fast} hover:text-[#a2191f] ${focusRing}`}
+    >
+      Contact us
+      <span aria-hidden="true" className="ml-4 text-base">→</span>
+    </a>
+  );
+}
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -53,78 +72,81 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-[#faf8f4] text-[#1d1915]">
+    <section id="faq" className="bg-[#faf8f4] text-[#161616]">
       <div className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 md:px-8 md:py-20 lg:px-12 lg:py-24">
         <div className="grid grid-cols-4 gap-y-12 md:grid-cols-8 lg:grid-cols-12 lg:gap-x-8">
           {/* LEFT — INTRO */}
           <div className="col-span-4 md:col-span-3 lg:col-span-4">
-            <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#E34234]">
-              Frequently Asked Questions
+            {/* label-01: 12/16, 0.32px */}
+            <p className="text-xs uppercase leading-4 tracking-[0.32px] text-[#E34234]">
+              FAQ
             </p>
 
-            <h2 className="mt-5 max-w-[390px] font-serif text-[40px] font-normal leading-[1.05] tracking-[-0.8px] md:text-[46px] lg:text-[50px]">
-              Everything You
-              <br />
-              Need to Know
+            {/* heading-05 (32/40) -> heading-06 (42/50) -> heading-07 (54/64) */}
+            <h2 className="mt-4 max-w-[390px] font-serif text-[32px] font-normal leading-10 md:text-[42px] md:leading-[50px] lg:text-[54px] lg:leading-[64px]">
+              Questions we get asked
             </h2>
 
-            <p className="mt-6 max-w-[350px] text-[13px] leading-6 text-[#77716a] md:text-[14px] md:leading-7">
-              Find answers to common questions about our collections,
-              delivery, quality, customer care and wholesale enquiries.
+            {/* body-01: 14/20, 0.16px */}
+            <p className="mt-6 max-w-[350px] text-sm leading-5 tracking-[0.16px] text-[#525252]">
+              Answers about our sarees, delivery, returns and wholesale orders.
             </p>
 
-            <div className="mt-10 hidden border-t border-[#ddd4c8] pt-5 md:block">
-              <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#8c857d]">
-                Need More Help?
+            <div className="mt-10 hidden border-t border-[#c6c6c6] pt-6 md:block">
+              <p className="text-xs leading-4 tracking-[0.32px] text-[#525252]">
+                Still have a question?
               </p>
 
-              <a href="#contact" className="mt-3 inline-flex min-h-12 items-center border-b border-[#E34234] text-[11px] font-medium uppercase tracking-[0.1em] text-[#E34234] outline-none transition-colors duration-150 hover:text-[#720613]">
-                Contact Our Team
-                <span className="ml-4 text-[15px]">→</span>
-              </a>
+              <div className="mt-2">
+                <ContactLink />
+              </div>
             </div>
           </div>
 
           {/* RIGHT — FAQ ACCORDION */}
           <div className="col-span-4 md:col-span-5 lg:col-span-8">
-            <div className="border-t border-[#d8d0c5]">
+            <div className="border-t border-[#c6c6c6]">
               {faqs.map((faq, index) => {
                 const isOpen = openIndex === index;
 
                 return (
-                  <div key={faq.question} className="border-b border-[#d8d0c5]">
+                  <div key={faq.question} className="border-b border-[#c6c6c6]">
                     <button
                       type="button"
+                      id={`faq-question-${index}`}
                       onClick={() => toggleFAQ(index)}
                       aria-expanded={isOpen}
                       aria-controls={`faq-answer-${index}`}
-                      className="flex min-h-16 w-full items-center justify-between gap-6 px-0 text-left outline-none transition-colors duration-150 hover:text-[#E34234] md:min-h-[72px]"
+                      className={`flex min-h-16 w-full items-center justify-between gap-6 px-0 text-left transition-colors ${fast} hover:text-[#E34234] md:min-h-[72px] ${focusRing}`}
                     >
                       <span className="flex items-start gap-5">
-                        <span className="hidden pt-0.5 text-[10px] font-medium tracking-[0.1em] text-[#a29a91] sm:block">
+                        <span aria-hidden="true" className="hidden pt-1 text-xs leading-4 tracking-[0.32px] text-[#525252] sm:block">
                           {String(index + 1).padStart(2, "0")}
                         </span>
 
-                        <span className="text-[13px] font-medium leading-5 md:text-[14px]">
+                        {/* body-01 (14/20) -> body-02 (16/24) */}
+                        <span className="text-sm font-medium leading-5 tracking-[0.16px] md:text-base md:leading-6 md:tracking-normal">
                           {faq.question}
                         </span>
                       </span>
 
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-[#ddd4c8] text-[#5f5851] transition-all duration-200">
+                      <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center border border-[#8d8d8d] text-[#161616]">
                         <span className="relative block h-3 w-3">
                           <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-current" />
-                          <span className={`absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-current transition-transform duration-200 ${isOpen ? "scale-y-0" : "scale-y-100"}`} />
+                          <span className={`absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-current transition-transform ${moderate} ${isOpen ? "scale-y-0" : "scale-y-100"}`} />
                         </span>
                       </span>
                     </button>
 
                     <div
                       id={`faq-answer-${index}`}
-                      className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                      role="region"
+                      aria-labelledby={`faq-question-${index}`}
+                      className={`grid transition-[grid-template-rows,opacity] ${moderate} ${isOpen ? "grid-rows-[1fr] opacity-100" : "invisible grid-rows-[0fr] opacity-0"}`}
                     >
                       <div className="overflow-hidden">
-                        <div className="pb-7 pl-0 pr-14 sm:pl-9 md:pb-8">
-                          <p className="max-w-[650px] text-[12px] leading-6 text-[#77716a] md:text-[13px] md:leading-7">
+                        <div className="pb-8 pl-0 pr-14 sm:pl-9">
+                          <p className="max-w-[650px] text-sm leading-5 tracking-[0.16px] text-[#525252] md:text-base md:leading-6 md:tracking-normal">
                             {faq.answer}
                           </p>
                         </div>
@@ -135,15 +157,14 @@ export default function FAQ() {
               })}
             </div>
 
-            <div className="mt-8 border-t border-[#ddd4c8] pt-6 md:hidden">
-              <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#8c857d]">
-                Need More Help?
+            <div className="mt-8 border-t border-[#c6c6c6] pt-6 md:hidden">
+              <p className="text-xs leading-4 tracking-[0.32px] text-[#525252]">
+                Still have a question?
               </p>
 
-              <a href="#contact" className="mt-3 inline-flex min-h-12 items-center border-b border-[#E34234] text-[11px] font-medium uppercase tracking-[0.1em] text-[#E34234] outline-none transition-colors duration-150 hover:text-[#720613]">
-                Contact Our Team
-                <span className="ml-4 text-[15px]">→</span>
-              </a>
+              <div className="mt-2">
+                <ContactLink />
+              </div>
             </div>
           </div>
         </div>
