@@ -50,7 +50,7 @@ const loginOptions = [
 ========================================================= */
 
 const PRIMARY_RED = "#E34234";
-const IVORY = "#faf8f4";
+const IVORY = "#FFE8E6";
 
 const LOGO_SRC = "/black_logo.png";
 

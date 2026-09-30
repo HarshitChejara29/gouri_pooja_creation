@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gouri Pooja Creations",
-  description: "Gouri Pooja Creations",
+  title: "Gouri Pooja Creation",
+  description: "Gouri Pooja Creation",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
