@@ -84,8 +84,8 @@ export default function Contact() {
 
                 <div>
                   <p className={rowLabel}>Phone</p>
-                  <a href="tel:07947149991" className={rowLink}>
-                    07947149991
+                  <a href="tel:07947111089" className={rowLink}>
+                    07947111089
                   </a>
                 </div>
               </div>

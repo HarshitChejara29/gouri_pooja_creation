@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
 const mainLinks = [
-  { label: "Home", href: "#home" },
+  { label: "Home", href: "/" },
   { label: "Collections", href: "#collections" },
+  { label: "Shop", href: "/shop" },
   { label: "About us", href: "#our-story" },
   { label: "Legacy", href: "#legacy" },
   { label: "What we do", href: "#why-us" },
@@ -23,40 +21,27 @@ const supportLinks = [
 
 const mobileLinks = [...mainLinks, ...supportLinks];
 
-/* =========================================================
-   LOGIN OPTIONS
-========================================================= */
-
 const loginOptions = [
   {
     title: "Retail customer",
-    description: "For personal orders",
+    description: "Personal orders",
     href: "/login?type=personal",
   },
   {
-    title: "Corporate & Business",
-    description: "For GPCL Admin",
+    title: "Business account",
+    description: "GPCL admin",
     href: "/login?type=corporate",
   },
   {
-    title: "GPCL Corporate",
-    description: "For GPCL Employees",
+    title: "Staff",
+    description: "GPCL employees",
     href: "/login?type=corporate",
   },
 ];
 
-/* =========================================================
-   BRAND
-========================================================= */
-
 const PRIMARY_RED = "#E34234";
-const IVORY = "#FFE8E6";
-
+const HEADER_BG = "#FFE8E6";
 const LOGO_SRC = "/black_logo.png";
-
-/* =========================================================
-   MOTION / FOCUS
-========================================================= */
 
 const focusLight =
   "outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E34234]";
@@ -67,32 +52,134 @@ const fast =
 const moderate =
   "duration-[240ms] ease-[cubic-bezier(0.2,0,0.38,0.9)] motion-reduce:transition-none";
 
-/* =========================================================
-   HEADER
-========================================================= */
-
 export default function Header() {
+  const pathname = usePathname();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeHref, setActiveHref] = useState("#home");
+
+  const [activeHref, setActiveHref] = useState(
+    pathname === "/shop"
+      ? "/shop"
+      : pathname === "/"
+        ? "#home"
+        : ""
+  );
 
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
 
-  /*
-   * Separate refs for desktop/mobile login.
-   * Both versions exist in the DOM at different breakpoints.
-   */
   const desktopLoginRef = useRef<HTMLDivElement>(null);
   const mobileLoginRef = useRef<HTMLDivElement>(null);
 
-  /* =========================================================
-     HEADER SCROLL BEHAVIOR
-  ========================================================= */
-
+  /*
+   * =========================================================
+   * ACTIVE SECTION
+   * =========================================================
+   *
+   * Home is active ONLY when the actual #home section is active.
+   * It is not active simply because pathname === "/".
+   *
+   * Shop is handled separately because it is a real route.
+   */
   useEffect(() => {
+    if (pathname === "/shop") {
+      setActiveHref("/shop");
+      return;
+    }
+
+    if (pathname !== "/") {
+      setActiveHref("");
+      return;
+    }
+
+    const sectionIds = [
+      "home",
+      ...mobileLinks
+        .filter(
+          (link) =>
+            link.href.startsWith("#") &&
+            link.href !== "#home"
+        )
+        .map((link) => link.href.slice(1)),
+    ];
+
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (!elements.length) {
+      setActiveHref("#home");
+      return;
+    }
+
+    const updateTopState = () => {
+      if (window.scrollY <= 80) {
+        setActiveHref("#home");
+      }
+    };
+
+    updateTopState();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSections = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              a.boundingClientRect.top -
+              b.boundingClientRect.top
+          );
+
+        if (visibleSections.length > 0) {
+          setActiveHref(
+            `#${visibleSections[0].target.id}`
+          );
+        }
+      },
+      {
+        rootMargin: "-35% 0px -55% 0px",
+        threshold: 0,
+      }
+    );
+
+    elements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    window.addEventListener(
+      "scroll",
+      updateTopState,
+      { passive: true }
+    );
+
+    return () => {
+      observer.disconnect();
+
+      window.removeEventListener(
+        "scroll",
+        updateTopState
+      );
+    };
+  }, [pathname]);
+
+  /*
+   * =========================================================
+   * HEADER SCROLL VISIBILITY
+   * =========================================================
+   *
+   * Scroll down  -> hide complete header
+   * Scroll up    -> show complete header
+   * At top       -> always show
+   *
+   * Same behavior on desktop and mobile.
+   */
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+    setIsVisible(true);
+
     const handleScroll = () => {
       if (ticking.current) return;
 
@@ -102,21 +189,20 @@ export default function Header() {
         const currentScrollY = window.scrollY;
         const previousScrollY = lastScrollY.current;
 
-        /* Always visible at top */
         if (currentScrollY <= 10) {
           setIsVisible(true);
-        }
-
-        /* Scroll DOWN -> hide */
-        else if (currentScrollY > previousScrollY + 6) {
+        } else if (
+          currentScrollY >
+          previousScrollY + 6
+        ) {
           setIsVisible(false);
 
           setMenuOpen(false);
           setLoginOpen(false);
-        }
-
-        /* Scroll UP -> show */
-        else if (currentScrollY < previousScrollY - 6) {
+        } else if (
+          currentScrollY <
+          previousScrollY - 6
+        ) {
           setIsVisible(true);
         }
 
@@ -125,54 +211,29 @@ export default function Header() {
       });
     };
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      { passive: true }
+    );
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
     };
   }, []);
 
-  /* =========================================================
-     ACTIVE SECTION DETECTION
-  ========================================================= */
-
+  /*
+   * =========================================================
+   * CLOSE LOGIN DROPDOWN ON OUTSIDE CLICK
+   * =========================================================
+   */
   useEffect(() => {
-    const elements = mobileLinks
-      .map((link) =>
-        document.getElementById(link.href.slice(1))
-      )
-      .filter(
-        (el): el is HTMLElement => el !== null
-      );
-
-    if (!elements.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveHref(`#${entry.target.id}`);
-          }
-        });
-      },
-      {
-        rootMargin: "-40% 0px -55% 0px",
-      }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
-  /* =========================================================
-     CLOSE LOGIN DROPDOWN ON OUTSIDE CLICK
-  ========================================================= */
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
+    const handleOutsideClick = (
+      event: MouseEvent
+    ) => {
       const target = event.target as Node;
 
       const clickedDesktopLogin =
@@ -202,12 +263,15 @@ export default function Header() {
     };
   }, []);
 
-  /* =========================================================
-     ESCAPE KEY
-  ========================================================= */
-
+  /*
+   * =========================================================
+   * ESCAPE KEY
+   * =========================================================
+   */
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (
+      event: KeyboardEvent
+    ) => {
       if (event.key === "Escape") {
         setMenuOpen(false);
         setLoginOpen(false);
@@ -227,26 +291,56 @@ export default function Header() {
     };
   }, []);
 
-  /* =========================================================
-     HELPERS
-  ========================================================= */
-
   const closeMenus = () => {
     setMenuOpen(false);
     setLoginOpen(false);
   };
 
+  /*
+   * =========================================================
+   * NAVIGATION
+   * =========================================================
+   */
   const handleNavigation = (
     e: React.MouseEvent<HTMLElement>,
     href: string
   ) => {
-    if (!href.startsWith("#")) return;
+    /*
+     * Home on homepage
+     */
+    if (
+      href === "/" &&
+      pathname === "/"
+    ) {
+      e.preventDefault();
+
+      setActiveHref("#home");
+      closeMenus();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+      return;
+    }
+
+    /*
+     * Normal page route such as /shop
+     */
+    if (!href.startsWith("#")) {
+      closeMenus();
+      return;
+    }
 
     e.preventDefault();
 
-    const target = document.querySelector(href);
+    const target =
+      document.querySelector(href);
 
     if (target) {
+      setActiveHref(href);
+
       target.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -256,21 +350,14 @@ export default function Header() {
     closeMenus();
   };
 
-  /* =========================================================
-     SEARCH
-
-     Searches the sections already present on the page.
-     Examples:
-       "saree" / "suits" / "kurtis" -> Collections
-       "legacy" / "2019" / "history" -> Legacy
-       "manufacturing" / "wholesale" -> What we do
-       "faq" / "questions" -> FAQ
-       "contact" / "visit" -> Contact
-
-     If a product/category name is present inside one of the
-     existing sections, the matching section is opened as well.
-  ========================================================= */
-
+  /*
+   * =========================================================
+   * SEARCH
+   * =========================================================
+   *
+   * Search jumps to the matching section of this page.
+   * It does not search products.
+   */
   const handleSearch = (
     e: React.FormEvent<HTMLFormElement>
   ) => {
@@ -287,12 +374,10 @@ export default function Header() {
 
     if (!normalizedQuery) return;
 
-    /*
-     * Section aliases make common searches go to the
-     * correct section even when the exact word is not
-     * present in the section heading.
-     */
-    const sectionAliases: Record<string, string[]> = {
+    const sectionAliases: Record<
+      string,
+      string[]
+    > = {
       "#home": [
         "home",
         "hero",
@@ -396,18 +481,29 @@ export default function Header() {
     };
 
     /*
-     * First try an exact/alias match.
+     * 1. Exact alias match
      */
-    let targetId: string | null = null;
+    let targetId: string | null =
+      null;
 
-    const aliasEntries = Object.entries(sectionAliases);
-
-    for (const [sectionId, aliases] of aliasEntries) {
-      const exactAlias = aliases.some(
-        (alias) =>
-          normalizedQuery ===
-          alias.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()
-      );
+    for (const [
+      sectionId,
+      aliases,
+    ] of Object.entries(
+      sectionAliases
+    )) {
+      const exactAlias =
+        aliases.some(
+          (alias) =>
+            normalizedQuery ===
+            alias
+              .toLowerCase()
+              .replace(
+                /[^a-z0-9]+/g,
+                " "
+              )
+              .trim()
+        );
 
       if (exactAlias) {
         targetId = sectionId;
@@ -416,15 +512,14 @@ export default function Header() {
     }
 
     /*
-     * Then look at the actual text inside the existing
-     * page sections. This allows searches such as a
-     * particular collection/product name to land in the
-     * section where that content already exists.
+     * 2. Search inside actual page sections only
      */
     if (!targetId) {
-      const sectionIds = mobileLinks.map(
-        (link) => link.href
-      );
+      const sectionIds = mobileLinks
+        .filter((link) =>
+          link.href.startsWith("#")
+        )
+        .map((link) => link.href);
 
       const candidates = sectionIds
         .map((id) => {
@@ -437,7 +532,10 @@ export default function Header() {
             element.textContent || ""
           )
             .toLowerCase()
-            .replace(/[^a-z0-9]+/g, " ")
+            .replace(
+              /[^a-z0-9]+/g,
+              " "
+            )
             .trim();
 
           if (!text) return null;
@@ -446,18 +544,22 @@ export default function Header() {
             normalizedQuery.split(" ");
 
           const matchedWords =
-            queryWords.filter((word) =>
-              text.includes(word)
+            queryWords.filter(
+              (word) =>
+                text.includes(word)
             ).length;
 
           const exactPhrase =
-            text.includes(normalizedQuery);
+            text.includes(
+              normalizedQuery
+            );
 
           return {
             id,
             matchedWords,
             exactPhrase,
-            textLength: text.length,
+            textLength:
+              text.length,
           };
         })
         .filter(
@@ -471,14 +573,17 @@ export default function Header() {
           } => item !== null
         )
         .filter(
-          (item) => item.matchedWords > 0
+          (item) =>
+            item.matchedWords > 0
         )
         .sort((a, b) => {
           if (
             a.exactPhrase !==
             b.exactPhrase
           ) {
-            return a.exactPhrase ? -1 : 1;
+            return a.exactPhrase
+              ? -1
+              : 1;
           }
 
           if (
@@ -497,54 +602,53 @@ export default function Header() {
           );
         });
 
-      if (candidates.length > 0) {
-        targetId = candidates[0].id;
+      if (
+        candidates.length > 0
+      ) {
+        targetId =
+          candidates[0].id;
       }
     }
 
     /*
-     * If nothing matched, don't navigate somewhere random.
-     * Keep the user's query in the input so they can refine it.
+     * No match
      */
     if (!targetId) return;
 
     const target =
-      document.querySelector(targetId);
+      document.querySelector(
+        targetId
+      );
 
     if (!target) return;
 
-    /*
-     * Update active navigation state immediately.
-     */
     setActiveHref(targetId);
-
-    /*
-     * Close mobile menu / login dropdown.
-     */
     closeMenus();
 
-    /*
-     * Scroll below the sticky header so the section
-     * heading/content is actually visible.
-     */
     const headerOffset =
       window.innerWidth >= 1024
         ? 130
         : 125;
 
     const targetTop =
-      target.getBoundingClientRect().top +
+      target.getBoundingClientRect()
+        .top +
       window.scrollY -
       headerOffset;
 
     window.scrollTo({
-      top: Math.max(0, targetTop),
+      top: Math.max(
+        0,
+        targetTop
+      ),
       behavior: "smooth",
     });
   };
 
   const toggleMobileMenu = () => {
-    setMenuOpen((value) => !value);
+    setMenuOpen(
+      (value) => !value
+    );
     setLoginOpen(false);
   };
 
@@ -556,20 +660,18 @@ export default function Header() {
           : "-translate-y-full"
       }`}
     >
-      {/* =====================================================
-          TOP RED UTILITY BAR
-      ===================================================== */}
-
+      {/* Red utility bar */}
       <div
         className="h-8 overflow-hidden text-white"
         style={{
-          backgroundColor: PRIMARY_RED,
+          backgroundColor:
+            PRIMARY_RED,
         }}
       >
         <div className="mx-auto flex h-8 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 md:px-10 lg:px-12">
           <div className="flex min-w-0 items-center text-[11px] leading-4 tracking-[0.25px] sm:text-xs">
             <span className="truncate">
-              Free shipping on orders above ₹1999
+              Free shipping above ₹1999
             </span>
 
             <span
@@ -583,39 +685,23 @@ export default function Header() {
           </div>
 
           <span className="hidden text-[11px] leading-4 tracking-[0.25px] sm:text-xs md:block">
-            Surat, Gujarat
+            Ring Road, Surat
           </span>
         </div>
       </div>
 
-      {/* =====================================================
-          MAIN HEADER
-      ===================================================== */}
-
+      {/* Main header */}
       <div
         className="relative text-[#161616]"
         style={{
-          backgroundColor: IVORY,
+          backgroundColor:
+            HEADER_BG,
         }}
       >
         <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-10 lg:px-12">
 
-          {/* =================================================
-              TOP ROW
-
-              DESKTOP:
-              LOGO              SEARCH             LOGIN
-
-              MOBILE:
-              LOGO                                      MENU
-          ================================================= */}
-
+          {/* Row 1 */}
           <div className="flex h-[58px] items-center sm:h-[64px] lg:h-[68px]">
-
-            {/* =================================================
-                LOGO
-            ================================================= */}
-
             <Link
               href="/"
               aria-label="Gouri Pooja Creation, home"
@@ -631,19 +717,8 @@ export default function Header() {
               />
             </Link>
 
-            {/* =================================================
-                DESKTOP SEARCH + LOGIN GROUP
-
-                IMPORTANT:
-                Search and Login are in the SAME flex group.
-            ================================================= */}
-
+            {/* Desktop search and login */}
             <div className="ml-auto hidden items-center gap-3 lg:flex">
-
-              {/* =================================================
-                  DESKTOP SEARCH
-              ================================================= */}
-
               <form
                 role="search"
                 onSubmit={handleSearch}
@@ -669,34 +744,36 @@ export default function Header() {
                   type="search"
                   value={searchQuery}
                   onChange={(e) =>
-                    setSearchQuery(e.target.value)
+                    setSearchQuery(
+                      e.target.value
+                    )
                   }
                   placeholder="Search sarees, suits, kurtis"
-                  aria-label="Search products"
+                  aria-label="Search this site"
                   className="h-full min-w-0 flex-1 bg-transparent pr-4 text-sm leading-[18px] tracking-[0.16px] text-[#161616] outline-none placeholder:text-[#6f6f6f]"
                 />
               </form>
 
-              {/* =================================================
-                  DESKTOP LOGIN
-              ================================================= */}
-
               <div
-                ref={desktopLoginRef}
+                ref={
+                  desktopLoginRef
+                }
                 className="relative shrink-0"
               >
                 <button
                   type="button"
                   onClick={() =>
                     setLoginOpen(
-                      (value) => !value
+                      (value) =>
+                        !value
                     )
                   }
-                  aria-expanded={loginOpen}
+                  aria-expanded={
+                    loginOpen
+                  }
                   aria-controls="desktop-login-options"
                   className={`flex h-11 items-center justify-center gap-2 bg-[#E34234] px-4 text-sm font-medium leading-[18px] tracking-[0.16px] text-white transition-colors ${fast} hover:bg-[#c7352a] ${focusLight}`}
                 >
-                  {/* User icon */}
                   <svg
                     width="16"
                     height="16"
@@ -707,7 +784,9 @@ export default function Header() {
                     <path d="M16 4a5 5 0 1 1-5 5 5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7 7 7 0 0 0-7-7zM26 30h-2v-5a5 5 0 0 0-5-5h-6a5 5 0 0 0-5 5v5H6v-5a7 7 0 0 1 7-7h6a7 7 0 0 1 7 7z" />
                   </svg>
 
-                  <span>Login</span>
+                  <span>
+                    Login
+                  </span>
 
                   <svg
                     width="11"
@@ -725,10 +804,6 @@ export default function Header() {
                   </svg>
                 </button>
 
-                {/* =================================================
-                    DESKTOP LOGIN DROPDOWN
-                ================================================= */}
-
                 <div
                   id="desktop-login-options"
                   className={`absolute right-0 top-full z-[100] mt-2 w-[320px] border border-[#d5cec5] bg-white text-[#161616] shadow-[0_8px_25px_rgba(0,0,0,0.12)] transition-all ${moderate} ${
@@ -744,22 +819,35 @@ export default function Header() {
                   {loginOptions.map(
                     (option) => (
                       <Link
-                        key={option.title}
-                        href={option.href}
-                        onClick={closeMenus}
+                        key={
+                          option.title
+                        }
+                        href={
+                          option.href
+                        }
+                        onClick={
+                          closeMenus
+                        }
                         className={`group flex items-center gap-4 border-b border-[#e7e2dc] px-4 py-4 last:border-b-0 hover:bg-[#faf8f4] ${focusLight}`}
                       >
                         <span className="min-w-0 flex-1">
                           <span className="block text-sm font-semibold leading-[18px] tracking-[0.16px]">
-                            {option.title}
+                            {
+                              option.title
+                            }
                           </span>
 
                           <span className="mt-1 block text-xs leading-4 tracking-[0.32px] text-[#525252]">
-                            {option.description}
+                            {
+                              option.description
+                            }
                           </span>
                         </span>
 
-                        <span className="text-base text-[#E34234] transition-transform group-hover:translate-x-1">
+                        <span
+                          aria-hidden="true"
+                          className="text-base text-[#E34234] transition-transform group-hover:translate-x-1"
+                        >
                           →
                         </span>
                       </Link>
@@ -769,22 +857,20 @@ export default function Header() {
               </div>
             </div>
 
-            {/* =================================================
-                MOBILE HAMBURGER
-
-                Login is intentionally NOT here.
-                Login is beside Search below.
-            ================================================= */}
-
+            {/* Mobile menu button */}
             <button
               type="button"
-              onClick={toggleMobileMenu}
+              onClick={
+                toggleMobileMenu
+              }
               aria-label={
                 menuOpen
                   ? "Close menu"
                   : "Open menu"
               }
-              aria-expanded={menuOpen}
+              aria-expanded={
+                menuOpen
+              }
               aria-controls="mobile-menu"
               className={`ml-auto flex h-10 w-10 items-center justify-center lg:hidden ${focusLight} sm:h-11 sm:w-11`}
             >
@@ -819,21 +905,13 @@ export default function Header() {
             </button>
           </div>
 
-          {/* =====================================================
-              MOBILE SEARCH + LOGIN
-
-              BOTH ARE ON THE SAME ROW
-          ===================================================== */}
-
+          {/* Mobile row 2 */}
           <div className="flex items-center gap-2 pb-3 lg:hidden">
-
-            {/* =================================================
-                MOBILE SEARCH
-            ================================================= */}
-
             <form
               role="search"
-              onSubmit={handleSearch}
+              onSubmit={
+                handleSearch
+              }
               className="flex h-10 min-w-0 flex-1 items-center border border-[#c9c1b8] bg-white focus-within:border-[#E34234] sm:h-11"
             >
               <button
@@ -856,36 +934,36 @@ export default function Header() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) =>
-                  setSearchQuery(e.target.value)
+                  setSearchQuery(
+                    e.target.value
+                  )
                 }
                 placeholder="Search sarees, suits, kurtis"
-                aria-label="Search products"
+                aria-label="Search this site"
                 className="h-full min-w-0 flex-1 bg-transparent pr-2 text-[13px] leading-[18px] text-[#161616] outline-none placeholder:text-[#77716c] sm:text-sm"
               />
             </form>
 
-            {/* =================================================
-                MOBILE LOGIN
-
-                NOW DIRECTLY BESIDE SEARCH
-            ================================================= */}
-
             <div
-              ref={mobileLoginRef}
+              ref={
+                mobileLoginRef
+              }
               className="relative shrink-0"
             >
               <button
                 type="button"
                 onClick={() =>
                   setLoginOpen(
-                    (value) => !value
+                    (value) =>
+                      !value
                   )
                 }
-                aria-expanded={loginOpen}
+                aria-expanded={
+                  loginOpen
+                }
                 aria-controls="mobile-login-options"
                 className={`flex h-10 items-center justify-center gap-1.5 bg-[#E34234] px-3 text-[13px] font-medium text-white transition-colors ${fast} hover:bg-[#c7352a] ${focusLight} sm:h-11 sm:px-4 sm:text-sm`}
               >
-                {/* User icon */}
                 <svg
                   width="15"
                   height="15"
@@ -896,7 +974,9 @@ export default function Header() {
                   <path d="M16 4a5 5 0 1 1-5 5 5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7 7 7 0 0 0-7-7zM26 30h-2v-5a5 5 0 0 0-5-5h-6a5 5 0 0 0-5 5v5H6v-5a7 7 0 0 1 7-7h6a7 7 0 0 1 7 7z" />
                 </svg>
 
-                <span>Login</span>
+                <span>
+                  Login
+                </span>
 
                 <svg
                   width="10"
@@ -914,10 +994,6 @@ export default function Header() {
                 </svg>
               </button>
 
-              {/* =================================================
-                  MOBILE LOGIN DROPDOWN
-              ================================================= */}
-
               <div
                 id="mobile-login-options"
                 className={`absolute right-0 top-full z-[100] mt-2 w-[min(310px,calc(100vw-32px))] border border-[#d5cec5] bg-white shadow-[0_8px_25px_rgba(0,0,0,0.12)] transition-all ${moderate} ${
@@ -933,22 +1009,35 @@ export default function Header() {
                 {loginOptions.map(
                   (option) => (
                     <Link
-                      key={option.title}
-                      href={option.href}
-                      onClick={closeMenus}
+                      key={
+                        option.title
+                      }
+                      href={
+                        option.href
+                      }
+                      onClick={
+                        closeMenus
+                      }
                       className={`group flex items-center gap-3 border-b border-[#e7e2dc] px-4 py-4 last:border-b-0 hover:bg-[#faf8f4] ${focusLight}`}
                     >
                       <span className="min-w-0 flex-1">
                         <span className="block text-sm font-semibold">
-                          {option.title}
+                          {
+                            option.title
+                          }
                         </span>
 
                         <span className="mt-1 block text-xs text-[#525252]">
-                          {option.description}
+                          {
+                            option.description
+                          }
                         </span>
                       </span>
 
-                      <span className="text-[#E34234] transition-transform group-hover:translate-x-1">
+                      <span
+                        aria-hidden="true"
+                        className="text-[#E34234] transition-transform group-hover:translate-x-1"
+                      >
                         →
                       </span>
                     </Link>
@@ -958,109 +1047,116 @@ export default function Header() {
             </div>
           </div>
 
-          {/* =====================================================
-              DESKTOP SECOND ROW
-
-              LEFT:
-              Home / Collections / About us / Legacy / What we do
-
-              RIGHT:
-              FAQ / Contact
-          ===================================================== */}
-
+          {/* Desktop row 2 */}
           <div className="hidden h-11 items-stretch justify-between border-t border-[#d9cfc0] lg:flex">
-
-            {/* =================================================
-                MAIN NAVIGATION
-            ================================================= */}
-
             <nav
               aria-label="Main navigation"
               className="flex h-full items-stretch gap-8"
             >
-              {mainLinks.map((item) => {
-                const active =
-                  activeHref === item.href;
+              {mainLinks.map(
+                (item) => {
+                  const active =
+                    item.href === "/"
+                      ? pathname === "/" &&
+                        activeHref ===
+                          "#home"
+                      : item.href.startsWith(
+                          "/"
+                        )
+                        ? pathname ===
+                          item.href
+                        : activeHref ===
+                          item.href;
 
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={(e) =>
-                      handleNavigation(
-                        e,
+                  return (
+                    <Link
+                      key={
                         item.href
-                      )
-                    }
-                    aria-current={
-                      active
-                        ? "true"
-                        : undefined
-                    }
-                    className={`flex items-center whitespace-nowrap border-b-2 text-sm leading-[18px] tracking-[0.16px] transition-colors ${fast} ${
-                      active
-                        ? "border-[#E34234] font-semibold text-[#161616]"
-                        : "border-transparent font-medium text-[#393939] hover:border-[#E34234]/60 hover:text-[#161616]"
-                    } ${focusLight}`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
+                      }
+                      href={
+                        item.href
+                      }
+                      onClick={(e) =>
+                        handleNavigation(
+                          e,
+                          item.href
+                        )
+                      }
+                      aria-current={
+                        active
+                          ? "page"
+                          : undefined
+                      }
+                      className={`flex items-center whitespace-nowrap border-b-2 text-sm leading-[18px] tracking-[0.16px] transition-colors ${fast} ${
+                        active
+                          ? "border-[#E34234] font-semibold text-[#161616]"
+                          : "border-transparent font-medium text-[#393939] hover:border-[#E34234]/60 hover:text-[#161616]"
+                      } ${focusLight}`}
+                    >
+                      {
+                        item.label
+                      }
+                    </Link>
+                  );
+                }
+              )}
             </nav>
 
-            {/* =================================================
-                FAQ + CONTACT
-
-                These remain under Login on desktop.
-            ================================================= */}
-
             <div className="flex h-full items-center">
-              {supportLinks.map((item, index) => {
-    const active = activeHref === item.href;
+              {supportLinks.map(
+                (item, index) => {
+                  const active =
+                    activeHref ===
+                    item.href;
 
-    return (
-      <div
-        key={item.href}
-        className="flex h-full items-stretch"
-      >
-        {index > 0 && (
-          <span
-            aria-hidden="true"
-            className="mx-4 my-auto h-5 w-px bg-[#cfc5b8]"
-          />
-        )}
+                  return (
+                    <div
+                      key={
+                        item.href
+                      }
+                      className="flex h-full items-stretch"
+                    >
+                      {index > 0 && (
+                        <span
+                          aria-hidden="true"
+                          className="mx-4 my-auto h-5 w-px bg-[#cfc5b8]"
+                        />
+                      )}
 
-        <Link
-          href={item.href}
-          onClick={(e) =>
-            handleNavigation(
-              e,
-              item.href
-            )
-          }
-          aria-current={
-            active ? "true" : undefined
-          }
-          className={`relative flex h-full items-center whitespace-nowrap border-b-2 text-sm leading-[18px] tracking-[0.16px] transition-colors ${fast} ${focusLight} ${
-            active
-              ? "border-[#E34234] font-semibold text-[#161616]"
-              : "border-transparent font-normal text-[#292929] hover:border-[#E34234]/60 hover:text-[#161616]"
-          }`}
-        >
-          {item.label}
-        </Link>
-      </div>
-    );
-  })}
+                      <Link
+                        href={
+                          item.href
+                        }
+                        onClick={(e) =>
+                          handleNavigation(
+                            e,
+                            item.href
+                          )
+                        }
+                        aria-current={
+                          active
+                            ? "true"
+                            : undefined
+                        }
+                        className={`relative flex h-full items-center whitespace-nowrap border-b-2 text-sm leading-[18px] tracking-[0.16px] transition-colors ${fast} ${focusLight} ${
+                          active
+                            ? "border-[#E34234] font-semibold text-[#161616]"
+                            : "border-transparent font-normal text-[#292929] hover:border-[#E34234]/60 hover:text-[#161616]"
+                        }`}
+                      >
+                        {
+                          item.label
+                        }
+                      </Link>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </div>
         </div>
 
-        </div>
-
-        {/* =====================================================
-            MOBILE NAVIGATION MENU
-        ===================================================== */}
-
+        {/* Mobile menu */}
         <div
           id="mobile-menu"
           className={`absolute inset-x-0 top-full z-[70] overflow-y-auto border-b border-[#d5cec5] bg-white text-[#161616] shadow-[0_8px_20px_rgba(0,0,0,0.12)] transition-[max-height,opacity] ${moderate} lg:hidden ${
@@ -1070,53 +1166,68 @@ export default function Header() {
           }`}
         >
           <div className="px-5 pb-5 pt-1 sm:px-6">
+            {mobileLinks.map(
+              (item) => {
+                const active =
+                  item.href === "/"
+                    ? pathname === "/" &&
+                      activeHref ===
+                        "#home"
+                    : item.href.startsWith(
+                        "/"
+                      )
+                      ? pathname ===
+                        item.href
+                      : activeHref ===
+                        item.href;
 
-            {mobileLinks.map((item) => {
-              const active =
-                activeHref === item.href;
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) =>
-                    handleNavigation(
-                      e,
+                return (
+                  <Link
+                    key={
                       item.href
-                    )
-                  }
-                  aria-current={
-                    active
-                      ? "true"
-                      : undefined
-                  }
-                  className={`flex min-h-[52px] items-center justify-between border-b border-[#ebe6e1] text-[14px] leading-[18px] tracking-[0.1px] transition-colors ${fast} ${
-                    active
-                      ? "font-semibold text-[#E34234]"
-                      : "font-normal text-[#292929]"
-                  } ${focusLight}`}
-                >
-                  <span>
-                    {item.label}
-                  </span>
-
-                  <span
-                    aria-hidden="true"
-                    className={`text-[17px] transition-transform ${fast} ${
+                    }
+                    href={
+                      item.href
+                    }
+                    onClick={(e) =>
+                      handleNavigation(
+                        e,
+                        item.href
+                      )
+                    }
+                    aria-current={
                       active
-                        ? "translate-x-0"
-                        : "-translate-x-1"
-                    } text-[#E34234]`}
+                        ? "page"
+                        : undefined
+                    }
+                    className={`flex min-h-[52px] items-center justify-between border-b border-[#ebe6e1] text-[14px] leading-[18px] tracking-[0.1px] transition-colors ${fast} ${
+                      active
+                        ? "font-semibold text-[#E34234]"
+                        : "font-normal text-[#292929]"
+                    } ${focusLight}`}
                   >
-                    →
-                  </span>
-                </Link>
-              );
-            })}
+                    <span>
+                      {
+                        item.label
+                      }
+                    </span>
 
+                    <span
+                      aria-hidden="true"
+                      className={`text-[17px] text-[#E34234] transition-transform ${fast} ${
+                        active
+                          ? "translate-x-0"
+                          : "-translate-x-1"
+                      }`}
+                    >
+                      →
+                    </span>
+                  </Link>
+                );
+              }
+            )}
           </div>
         </div>
-      </div>
       </div>
     </header>
   );

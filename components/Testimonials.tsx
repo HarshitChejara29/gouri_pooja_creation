@@ -5,34 +5,34 @@ import { useEffect, useRef, useState } from "react";
 
 const testimonials = [
   {
-    name: "Riddhi Patel",
+    name: "Krishna Kumar Aslm",
     review:
       "Absolutely loved the fabric and fit. Got so many compliments! The Banarasi weave is absolutely authentic and feels royal.",
-    image: "/review/customer1.png",
+    image: "/review/customer-1.png",
   },
   {
-    name: "Neha K.",
+    name: "Md Farid",
     review:
       "Beautiful collection and super fast delivery. Highly recommend! Gouri Pooja has become my absolute go-to for festive edits.",
-    image: "/review/customer2.png",
+    image: "/review/customer-2.png",
   },
   {
-    name: "Aarti M.",
+    name: "Radhe krishna sheer sowroom",
     review:
       "True to the pictures and great quality. Will shop again! The customer service was also very helpful with my sizing questions.",
-    image: "/review/customer3.png",
+    image: "/review/customer-3.png",
   },
   {
-    name: "Priya Shah",
+    name: "Raju Gupta",
     review:
       "The saree looked even more beautiful in person. The detailing, fabric and finishing were absolutely gorgeous.",
-    image: "/review/customer4.png",
+    image: "/review/customer-4.png",
   },
   {
-    name: "Kavya Mehta",
+    name: "Pawan",
     review:
       "I received so many compliments on my saree. The quality feels premium and the entire shopping experience was wonderful.",
-    image: "/review/customer5.png",
+    image: "/review/customer-5.png",
   },
 ];
 

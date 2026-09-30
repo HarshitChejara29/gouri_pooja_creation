@@ -14,7 +14,7 @@ const sections = [
 
   {
     number: "02",
-    title: "Products & Product Information",
+    title: "Products Information",
     content: (
       <p>
         Gouri Pooja Creations offers sarees, ready-made garments, fabrics, and

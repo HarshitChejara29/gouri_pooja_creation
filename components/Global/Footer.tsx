@@ -7,15 +7,15 @@ const linkGroups = [
     links: [
       ["Home", "/"],
       ["Collections", "#collections"],
-      ["About us", "#our-story"],
+      ["Shop", "/shop"],
     ],
   },
   {
     title: "Company",
     links: [
+      ["About us", "#our-story"],
       ["Legacy", "#legacy"],
       ["What we do", "#why-us"],
-      ["Reviews", "#testimonials"],
     ],
   },
   {
