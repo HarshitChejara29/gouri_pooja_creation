@@ -593,7 +593,7 @@ export default function Header() {
       ===================================================== */}
 
       <div
-        className="relative border-b border-[#ded5c8] text-[#161616]"
+        className="relative text-[#161616]"
         style={{
           backgroundColor: IVORY,
         }}
