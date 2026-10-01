@@ -68,7 +68,6 @@ export default function About() {
             <div className="relative z-10 max-w-[570px]">
               {/* SECTION LABEL — label-01: 12/16, 0.32px */}
               <div className="mb-6 flex items-center gap-4">
-                <span className="h-px w-10 bg-[#E34234]" />
                 <span className="text-xs uppercase leading-4 tracking-[0.32px] text-[#E34234]">
                   About us
                 </span>

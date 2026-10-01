@@ -157,7 +157,7 @@ export default function FAQ() {
               })}
             </div>
 
-            <div className="mt-8 border-t border-[#c6c6c6] pt-6 md:hidden">
+            <div className="mt-8 pt-6 md:hidden">
               <p className="text-xs leading-4 tracking-[0.32px] text-[#525252]">
                 Still have a question?
               </p>
